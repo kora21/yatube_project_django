@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+<article>
+      <h3>{{ post.author.get_full_name }}</h3>
+      <h4>{{ post.pub_date|date:"d E Y" }}</h4>
+      <h5>Всего символов: {{ post.text.length }}</h5>
+  {% for post in group and not group %}
+      <ul class="actions"> 
+          <li><a href="{% url'posts:group_list' post.group.slug %}"
+            больше постов группы {{ post.group }}   
+          </a></li>
+        </ul>
+       {% endif %}
+    </article>

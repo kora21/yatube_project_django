@@ -1,0 +1,20 @@
+{% load static%}
+<nav id="menu">
+    <header class="major">
+        <h3>Menu</h3>
+    </header>    
+    <ul>
+        <li><a href="{% url 'admin:index' %}"> Admin site </a></li>
+        <li><a href="{% url 'posts:index' %}"> INDEX </a></li>
+        {% if groups %}
+        <li>
+            <span class="opener">Groups</span>
+            <ul>
+            {% for group in groups %}
+                <li><a href="{% url 'posts:group_list' group.slug %}"> {{ group.title }} </a></li>
+            {% endfor %}
+            </ul>
+        </li> 
+        {% endif %}
+    </ul>
+</nav>              

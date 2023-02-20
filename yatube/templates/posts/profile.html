@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% block title %}Профайл пользователя {{ author.get_full_name }}{% endblock %}
+{% block content %}
+    <main>
+      <div class="mb-5">        
+        <h1>Все посты пользователя {{ post.author.get_full_name }} </h1>
+        <h3>Всего постов: {{ author.posts.count }} </h3> 
+        {% if following %}
+        <a
+          class="btn btn-lg btn-light"
+          href="{% url 'posts:profile_unfollow' author.username %}" role="button"
+        >
+          Отписаться
+        </a>
+      {% else %}
+          <a
+            class="btn btn-lg btn-primary"
+            href="{% url 'posts:profile_follow' author.username %}" role="button"
+          >
+            Подписаться
+          </a>
+       {% endif %}  
+        {%for post in page_obj%}
+        <article>
+          <ul>
+            <li>
+              Author: {{ author.get_full_name }}
+              <a href="{% url 'posts:profile' post.author.username %}">все посты пользователя</a>
+            </li>
+            <li>
+              Дата публикации: {{ post.pub_date|date:"d E Y" }} 
+            </li>
+          </ul>
+          <p>
+            {% thumbnail item.image "100x100" crop="center" as im %}
+              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            {% endthumbnail %} 
+           {{post.text}}
+          </p>
+          <a href="<!-- -->">подробная информация </a>
+        </article>       
+        {%if post.group%}
+        <li> Группа: {{ post.group.title}} </li>
+        <li>
+        <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>    
+      </li>
+      {% endif %}    
+      {% if not forloop.last %}<hr>{% endif %}
+      {% endfor %}
+    </div>
+  </main>
+  {% include 'posts/includes/paginator.html' %}
+  {%endblock%}
+  
