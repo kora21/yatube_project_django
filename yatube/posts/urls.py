@@ -1,4 +1,3 @@
-# posts/urls.py
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
@@ -21,7 +20,6 @@ urlpatterns = [
          ),
     path('create/', views.post_create, name='post_create'),
     path('posts/<post_id>/edit/', views.post_edit, name='post_edit'),
-    # path('core/unexisting-page/', views.page_not_found, name='404'),
 ]
 
 if settings.DEBUG:

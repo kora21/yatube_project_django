@@ -51,6 +51,7 @@ class PostURLTests(TestCase):
             with self.subTest(address=address):
                 response = self.client.get(address)
                 self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+                self.assertTemplateUsed(response, 'core/404.html')
 
     def test_post_create_url_redirect_anonymous(self):
         """Страница /create/ перенаправляет анонимного пользователя."""
