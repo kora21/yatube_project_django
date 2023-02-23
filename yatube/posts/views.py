@@ -69,10 +69,10 @@ def profile(request, username):
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     form = CommentForm()
-    comments = post.comments.select_related('author').all()
+    comment = post.comments.select_related('author').all()
     context = {
         'post': post,
-        'comments': comments,
+        'comment': comment,
         'form': form,
     }
     return render(request, 'posts/post_detail.html', context)
@@ -125,13 +125,10 @@ def add_comment(request, post_id):
 
 @login_required
 def follow_index(request):
-    follows = Follow.objects.filter(user=request.user).values('author')
-    following_list = Post.objects.filter(author_id__in=follows).order_by(
-        "-pub_date")
-    posts = following_list
-    page_obj = get_page(request, posts)
+    post_list = Post.objects.select_related('author', 'group')
+    page_obj = get_page(request, post_list)
     context = {
-        'posts': posts,
+        'post_list': post_list,
         'page_obj': page_obj,
     }
     return render(request, 'posts/follow.html', context)
@@ -152,7 +149,7 @@ def profile_unfollow(request, username):
     return redirect('posts:profile', username=username)
 
 
-@cache_page(60 * 20, key_prefix='index_page')
+@cache_page(20)
 def my_view(request):
     posts = Post.objects.select_related('author', 'group').all()
     page_obj = get_page(request, posts)

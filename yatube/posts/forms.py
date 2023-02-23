@@ -1,13 +1,16 @@
-from .models import Post, Comment
-from django.forms import ModelForm
 from django import forms
+
+from django.forms import ModelForm
+
+from .models import Post, Comment
 
 
 class PostForm(ModelForm):
     class Meta:
         model = Post
         fields = ('group', 'text', 'image')
-        labels = {'group': 'Группа', 'text': 'Текст поста'}
+        labels = {'group': 'Группа', 'text': 'Текст поста',
+                  'image': 'Картинка'}
         help_texts = {'group': 'Выберите группу', 'text': 'Текст нового поста'}
 
         def clean_text(self):

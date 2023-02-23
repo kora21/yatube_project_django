@@ -82,18 +82,21 @@ class Comment(models.Model):
 class Follow(models.Model):
     user = models.ForeignKey(
         User,
-        null=True,
-        blank=True,
         on_delete=models.CASCADE,
         verbose_name='Автор',
         related_name="follower")
     author = models.ForeignKey(
         User,
-        null=True,
-        blank=True,
         on_delete=models.CASCADE,
         verbose_name='Подписчик',
         related_name='following')
+
+    class Meta:
+        ordering = ['-author']
+        constraints = [models.UniqueConstraint(
+            fields=['user', 'author'],
+            name='unique_participants'
+        )]
 
     def __str__(self):
         return f'follower - {self.user} following - {self.author}'
