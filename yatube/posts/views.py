@@ -125,7 +125,8 @@ def add_comment(request, post_id):
 
 @login_required
 def follow_index(request):
-    post_list = Post.objects.select_related('author', 'group')
+    post_list = Post.objects.filter(
+        author__following__in=request.user.follower.all())
     page_obj = get_page(request, post_list)
     context = {
         'post_list': post_list,
