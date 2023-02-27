@@ -41,7 +41,8 @@ class TestPost:
     def test_post_model(self):
         model_fields = Post._meta.fields
         text_field = search_field(model_fields, 'text')
-        assert text_field is not None, 'Добавьте название события `text` модели `Post`'
+        assert text_field is not None
+        'Добавьте название события `text` модели `Post`'
         assert type(text_field) == fields.TextField, (
             'Свойство `text` модели `Post` должно быть текстовым `TextField`'
         )
@@ -121,7 +122,8 @@ class TestPost:
             'Добавьте `text` для отображения в списке модели административного сайта'
         )
 
-        assert 'pub_date' in admin_model.list_display or 'created' in admin_model.list_display, (
+        assert 'pub_date' 
+        in admin_model.list_display or 'created' in admin_model.list_display, (
             f'Добавьте `pub_date` или `created` для отображения в списке модели административного сайта'
         )
         assert 'author' in admin_model.list_display, (
