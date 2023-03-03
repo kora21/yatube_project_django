@@ -5,23 +5,23 @@ User = get_user_model()
 
 
 class Group(models.Model):
-    title = models.CharField(max_length=200, verbose_name='Заголовок')
-    slug = models.SlugField(unique=True, max_length=200)
-    description = models.TextField(verbose_name='Описание группы')
+    title = models.CharField('Название', max_length=200)
+    slug = models.SlugField('Название группы', unique=True)
+    description = models.TextField('Описание группы')
 
     class Meta:
-        verbose_name = 'группа'
-        verbose_name_plural = 'группы'
+        verbose_name_plural = 'Группы'
 
     def __str__(self):
         return self.title
 
 
 class Post(models.Model):
-    text = models.TextField('Текст поста',
+    text = models.TextField(verbose_name='Текст поста',
                             help_text='Введите текст поста',
                             blank=False)
-    pub_date = models.DateTimeField(auto_now_add=True)
+    pub_date = models.DateTimeField("Дата публикации",
+                                    auto_now_add=True)
     author = models.ForeignKey(
         User,
         verbose_name='Автор',
@@ -29,12 +29,12 @@ class Post(models.Model):
         related_name='posts')
     group = models.ForeignKey(
         Group,
+        verbose_name='Группа',
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        verbose_name='Группа',
-        help_text='Здесь можно выбрать группу',
-        on_delete=models.SET_NULL,
-        related_name='posts'
+        related_name='posts',
+        help_text='Здесь можно выбрать группу'
     )
     image = models.ImageField(
         'Картинка',
@@ -45,8 +45,8 @@ class Post(models.Model):
     class Meta:
         ordering = ('-pub_date',)
         default_related_name = 'posts'
-        verbose_name = 'пост'
-        verbose_name_plural = 'посты'
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
 
     def __str__(self):
         return self.text[:15]
@@ -58,7 +58,8 @@ class Comment(models.Model):
         null=True,
         blank=True,
         on_delete=models.CASCADE,
-        related_name="comments")
+        related_name="comments",
+        verbose_name='Комментарии')
     author = models.ForeignKey(
         User,
         verbose_name='Автор',

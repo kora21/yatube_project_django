@@ -88,7 +88,8 @@ class TestPostView:
         except ImportError:
             assert False, 'Не найдена форма CommentForm в posts.form'
 
-        comment_form_context = get_field_from_context(response.context, CommentForm)
+        comment_form_context = get_field_from_context(response.context,
+                                                      CommentForm)
         assert comment_form_context is not None, (
             'Проверьте, что передали форму комментария в контекст страницы `/posts/<post_id>/` типа `CommentForm`'
         )
